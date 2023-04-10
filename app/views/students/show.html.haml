@@ -1,0 +1,13 @@
+%p{:style => "color: green"}= notice
+= render @student
+
+%p#otp 1234
+
+= link_to "generate no.", generate_num_student_path(@student), remote: true
+
+%div
+  = link_to "Edit this student", edit_student_path(@student)
+  |
+  = link_to "Back to students", students_path
+  
+  = button_to "Destroy this student", @student, method: :delete

@@ -1,0 +1,52 @@
+%div.container  
+  %p{:style => "color: green"}= notice
+  %h1 Students
+  %table.table
+    - standard_array = ["1","2","3","4","5","6","7","8","9","10"]
+    - puts "#{standard_array}" 
+    %thead
+      %tr
+        %th Id
+        %th Name
+        %th city
+        %th email
+        %th standard
+        %th action
+    %tbody
+    - @students.each do |student|
+      %tr
+        %td= student.id
+        %td= student.name
+        %td= student.city
+        %td= student.email
+        %td
+          - current_standard = student.standard
+          - current_standard_index = standard_array.find_index(current_standard)
+          %input.standard_change{value: student.standard, type: 'checkbox', checked: student.standard , data: {student_id: "#{student.id}"}} 
+          %span= student.standard
+          %span= current_standard_index + 1
+        %td= link_to "Student description", student_description_student_path(student), remote: true
+        %td= link_to "Show this student", student
+      %br
+  %br
+  %div.container#stud_description
+  = link_to "New student", new_student_path, class:"btn btn-primary"
+
+- content_for :js_code do
+  :javascript
+    $(document).ready(function(){
+      $(".standard_change").on("change", function(){
+          student_id = $(this).attr("data-student-id") 
+          console.log(student_id)
+        
+        $.ajax({
+          url: "/students/"+ student_id +"/change_standard",
+          data: {student: {standard: $(this).val()}},
+          type: 'put',
+          dataType: 'json',
+          success: function(result){
+            
+          }
+        })
+      })
+    })

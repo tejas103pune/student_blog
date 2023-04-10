@@ -1,0 +1,15 @@
+%div{:id => "#{dom_id student}"} 
+  %table
+    %thead
+      %tr
+        %th Name
+        %th city
+        %th email
+        %th action
+  %tbody
+    %tr
+      %td= student.name
+      %td= student.city
+      %td= student.email
+      %td= link_to "Student description", student_description_student_path(student), remote: true
+      %td= link_to "Show this student", student
